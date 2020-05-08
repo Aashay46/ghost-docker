@@ -1,57 +1,44 @@
 version: '3'
 services:
 
-  dbos:
-    image: mysql:5.7
-    volumes:
-        -  mysql_storage_new:/var/lib/mysql
+    dbos:
+        image: mysql:5.7
+        volumes:
+            -  mysql_storage_new:/var/lib/mysql
 
-    restart: always
+        restart: always
 
-    environment:
-            MYSQL_ROOT_PASSWORD: rootpass
-            MYSQL_USER: aashay
-            MYSQL_PASSWORD: redhat
-            MYSQL_DATABASE: mydb
-
-
-  ghost:
-     image: ghost
-     restart: always
-     ports:     
-             -  8080:2368
-             
-     depends_on:
-             -  dbos
-               
-     environment:
-            MYSQL_ROOT_PASSWORD: rootpass
-            MYSQL_USER: aashay
-            MYSQL_PASSWORD: redhat
-            MYSQL_DATABASE: mydb
+        environment:
+              MYSQL_ROOT_PASSWORD: rootpass
+              MYSQL_USER: aashay
+              MYSQL_PASSWORD: redhat
+              MYSQL_DATABASE: mydb
 
 
-ghost:
-     image: ghost
-     restart: always
-     ports:     
+    ghost:
+       image: ghost
+       restart: always
+       ports:     
              -  8081:2368
              
-     depends_on:
+       depends_on:
              -  dbos
                
-     environment:
-              database_client: mysql
-              database_connection_host: dbos
-              database_connection_user: aashay
-              database_connection_password: redhat
-              database_connection_database: mydb
+       environment:
+             MYSQL_ROOT_PASSWORD: rootpass
+             MYSQL_USER: aashay
+             MYSQL_PASSWORD: redhat
+             MYSQL_DATABASE: mydb
 
-     volumes:
+
+
+       volumes:
              -  ghost_storage_new:/var/lib/ghost/content
+    
+    
 volumes:
-             mysql_storage_new:
-             ghost_storage_new:
+        mysql_storage_new:
+        ghost_storage_new:
 
 
                                 
